@@ -2,7 +2,7 @@
   "name": "parse-argv",
   "version": "0.1.0",
   "description": "Typesafe command line argument parsing.",
-  "main": "index.js",
+  "main": "src/index.ts",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@main:ZanderNoriega/parse-argv.git"
+    "url": "git@github.com:ZanderNoriega/parse-argv.git"
   },
   "author": "",
   "license": "ISC",
