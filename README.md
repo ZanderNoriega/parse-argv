@@ -6,7 +6,7 @@ Basic implementation for parsing from strings in `process.argv` included.
 
 # Example
 
-Define a type for your programs arguments. Eg.:
+Define a type for your program's custom options. Eg.:
 
 ```typescript
 type Env = 'DEV' | 'PROD';
@@ -29,7 +29,7 @@ export const parseValue = (v: string): Env | number | undefined => {
 };
 ```
 
-Define some defaul args for your program:
+Define some default options:
 
 ```typescript
 const opts: Options = {
@@ -39,18 +39,21 @@ const opts: Options = {
 };
 ```
 
-Finally, import `ParseARGV.fromStrings` to use the default parsing, ie. parsing from strings as they come in eg. `process.argv`. This default parser has some defaults in its arguments for string separator, string splitting, formatting (de-hyphenating, etc.) that should do the job for most needs.
+Finally, import `ParseARGV.fromStrings` to use the default parsing. Ie. parsing from strings as they come in `process.argv`. 
 
 ```typescript
 const opts: Options = ParseARGV.fromStrings(defaults, parseValue)(process.argv);
 
 ```
+Now you have `opts`, which will always have some value defined.
+
+The included default string parser handles some common things like string splitting by "=" to separate key values, formatting (de-hyphenating, etc.) that is commonly need it. But you could implement your own thing for each of those steps.
 
 (Note that you provided `parseValue` because the default parsing logic doesn't know about your custom types.)
 
-Now you have `opts`, which will always have some value defined.
+So there's no limitation for the type (ie. its data structure) that an option can be. If you can provide a default, and parse it, then it can be an option.
 
-Meant to be use in the common syntax for bash scripts. Eg.
+If you call it with valid values, they will be used.
 
 ```typescript
 
@@ -58,7 +61,7 @@ $ node run mycommand -- --contrast=5 --saturation=-3
 
 ```
 
-If called with garbage values:
+If you pass garbage values:
 
 ```typescript
 
@@ -66,7 +69,7 @@ $ node run mycommand -- --contrast= --saturation='Cannibal Corpse'
 
 ```
 
-The parsers will fail and the values from the `defaults` defined above will be used.
+The parsers will fail and the default values you provide will be used instead.
 
 # Contributing
 
