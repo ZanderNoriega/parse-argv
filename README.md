@@ -8,7 +8,7 @@ Basic implementation for parsing from strings in `process.argv` included.
 
 Define a type for your programs arguments. Eg.:
 
-```
+```typescript
 type Env = 'DEV' | 'PROD';
 type Options = {
   contrast: number,
@@ -19,7 +19,7 @@ type Options = {
 
 Define a parser that handles any value for your `Options` type above. Eg.
 
-```
+```typescript
 export const parseValue = (v: string): Env | number | undefined => {
   if (v == 'DEV' || v == 'PROD') {
     return v;
@@ -31,7 +31,7 @@ export const parseValue = (v: string): Env | number | undefined => {
 
 Define some defaul args for your program:
 
-```
+```typescript
 const opts: Options = {
   contrast: 0,
   saturation: 0,
@@ -41,7 +41,7 @@ const opts: Options = {
 
 Finally, import `ParseARGV.fromStrings` to use the default parsing, ie. parsing from strings as they come in eg. `process.argv`. This default parser has some defaults in its arguments for string separator, string splitting, formatting (de-hyphenating, etc.) that should do the job for most needs.
 
-```
+```typescript
 const opts: Options = ParseARGV.fromStrings(defaults, parseValue)(process.argv);
 
 ```
@@ -52,7 +52,7 @@ Now you have `opts`, which will always have some value defined.
 
 Meant to be use in the common syntax for bash scripts. Eg.
 
-```
+```typescript
 
 $ node run mycommand -- --contrast=5 --saturation=-3
 
@@ -60,7 +60,7 @@ $ node run mycommand -- --contrast=5 --saturation=-3
 
 If called with garbage values:
 
-```
+```typescript
 
 $ node run mycommand -- --contrast= --saturation='Cannibal Corpse'
 
