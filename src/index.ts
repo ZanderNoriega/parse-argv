@@ -13,7 +13,7 @@ type Maybe<T> = T | undefined;
  * To parse means to go from some `S` to (maybe) some value
  * whose type is that of a property of some options T.
  */
-type Parser<T extends ArgsDict<T>, S> = (s: S) => Maybe<T[keyof T]>;
+type Parser<T extends ArgsDict<T>, S> = (k: keyof T, s: S) => Maybe<T[keyof T]>;
 
 /**
  * Fully generic (ie. no mention of `string`) argument parsing logic.
@@ -32,10 +32,14 @@ export const parseOne =
     const kv: S[] = split(rawArg, sep);
     const k: Maybe<S> = kv[0];
     const parsedK: Maybe<keyof T> = k ? formatKey(k) : undefined;
-    const v: Maybe<S> = kv[1];
-    const parsedV: Maybe<T[keyof T]> = v ? parseVal(v) : undefined;
-    if (parsedK && parsedV && typeof defaults[parsedK] == typeof parsedV) {
-      return { ...defaults, [parsedK]: parsedV };
+    if (parsedK) {
+      const v: Maybe<S> = kv[1];
+      const parsedV: Maybe<T[keyof T]> = v ? parseVal(parsedK, v) : undefined;
+      if (parsedV && typeof defaults[parsedK] == typeof parsedV) {
+        return { ...defaults, [parsedK]: parsedV };
+      } else {
+        return defaults;
+      }
     } else {
       return defaults;
     }
